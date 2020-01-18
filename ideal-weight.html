@@ -1,0 +1,61 @@
+<center>
+<table border="0" cellspacing="0" cellpadding="3">
+<tbody><tr>
+<td class="b3">أدخل طولك بالسنتيمتر (cm): </td>
+<td><input id="groesse" style="width:80px" value="" maxlength="5"></td>
+</tr>
+<tr>
+<td style="width:80px">Gender:</td>
+<td>
+<input type="radio" name="geschlecht">رجل	
+<input type="radio" name="geschlecht">مراة
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<input type="button" value="احسب" class="b2" onclick="docalc()"> 
+<input type="reset" value="حذف" class="b2">
+</td></tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>الوزن القياسي(kg):</td>
+<td>
+<input id="ngew" style="width:80px" value="" readonly=""></td>
+</tr>
+<tr>
+<td>الوزن المثالي (kg):</td>
+<td>
+<input id="igew" style="width:80px" value="" readonly=""></td>
+</tr>
+</tbody></table>
+<script type="text/javascript">
+function docalc()
+{
+         cm=document.getElementById("groesse").value.replace(",",".");
+		 ergn=cm-100;
+		 ergi=ergn*0.85;
+		 sex=0;
+		 if(document.getElementsByName("geschlecht")[0].checked) sex=0;
+		 else if(document.getElementsByName("geschlecht")[1].checked) sex=1;
+		 if (!sex) 
+		 	ergi=ergn*0.9; // m&auml;nnlich
+		 else
+			ergi=ergn*0.85;   // weiblich 
+		 ergn=Math.round(ergn);
+		 ergi=Math.round(ergi);
+		 ergn+="";
+		 ergi+="";
+		 ergn=ergn.replace(".",",");
+		 ergi=ergi.replace(".",",");
+		 document.getElementById("ngew").value=ergn;
+		 document.getElementById("igew").value=ergi;
+	
+}
+</script>
+<p>
+<a href="https://mwsw3ti.blogspot.com" title="home">موقع موسوعتى</a>
+</p>
+</center>
