@@ -1,0 +1,79 @@
+<center>
+
+<HTML>
+<HEAD>
+<TITLE>Speed internet connection detection script</TITLE>
+<SCRIPT type="text/JavaScript">
+// Free use if comments remains
+var tjs_img; 
+var tjs_src="https://cdn.statically.io/screenshot/mwsw3ti.blogspot.com"; // Image to download
+var tjs_size=35687;	// Size of image
+var tjs_delai=100; 
+var tjs_nb=-1; 
+var tjs_delai_max=20000; // 20 000 milliseconds
+var timer1=0; var timer2=0;
+var tjs_fin="";
+
+function Checkkos() {
+// Start connection verification
+tjs_img=new Image();
+timer1=new Date();
+timer1=timer1.getTime();
+tjs_img.src=tjs_src+"?dummy="+timer1;
+tjs_nb=0;
+document.countkos.info.value="انتظر ثوانى للفحص ";
+setTimeout("Timerkos()",tjs_delai);
+}
+function Timerkos() {
+var anim="-"
+tjs_nb++;
+document.countkos.info.value="Verification in progress ";
+
+if (tjs_nb*tjs_delai>=tjs_delai_max) { // End of max time
+tjs_fin=EvalConnexion(0);
+document.countkos.info.value=tjs_fin;
+} else {
+if (tjs_img.complete) {
+timer2=new Date(); timer2=timer2.getTime();
+tjs_fin=EvalConnexion(tjs_size/(timer2-timer1));
+document.countkos.info.value=tjs_fin;
+} else {
+setTimeout("Timerkos()",tjs_delai)
+}
+}
+}
+function EvalConnexion(kos) {
+tjs_nb=-1;
+res="";
+if (kos==0) {res="Connection not detected";}
+if ((kos>0)&&(kos<3)) {res="connection Type: Modem 28k";}
+if ((kos>3)&&(kos<6)) {res="connection Type: Modem 56k";}
+if ((kos>6)&&(kos<100)) {res="connection Type: Wifi or G3";}
+if (kos>100) {res="connection Type: LAN"; }
+kos=Math.round(kos*10)/10;
+return res+" (" + kos +" KB/s)";
+}
+</SCRIPT>
+</HEAD>
+
+<BODY bgcolor="white" >
+<FONT face="arial" color="navy" size="2">
+<B><BIG><CENTER>انقر فوق الزر للكشف عن اتصال السرعة
+</CENTER></BIG></B><BR><BR>
+يقوم هذا البرنامج النصي بإجراء تقييم للنطاق الترددي فقط باستخدام متوسط الإنتاجية الذي يقوم بتنزيل صورة.<BR>
+<BR>والنتيجة هي مقياس لسرعة تنزيل صورة في لحظة محددة. بطبيعة الحال ، إذا تم تنفيذ أنشطة الإنترنت الأخرى في نفس الوقت ، فسيكون هذا الإجراء خاطئًا.
+<BR>
+<BR>
+<FORM name="countkos">
+<INPUT type=text name=info size=40>
+<INPUT type=button value="كشف سرعة الاتصال والنوع" onClick="Checkkos()">
+</FORM>
+
+</FONT>
+</BODY>
+</HTML>
+
+<p>
+<a href="https://mwsw3ti.blogspot.com" title="home">موقع موسوعتى</a>
+</p>
+</center>
