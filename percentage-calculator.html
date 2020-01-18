@@ -1,0 +1,196 @@
+<center>
+<div id="divPanel1" class="divPanel">
+<div class="divPanelWrapper">
+  <div class="divPanelContent">
+  <div id="divInput1" class="divInput">
+احسب النسبة المئوية <input value="" placeholder="أدخل النسبة المئوية" id="p1" name="p1"> % من 
+<input value="" placeholder="العدد الاجمالى" id="t1" name="t1"> ? 
+<br>الناتج : <input value="" placeholder="5" id="r1" name="r1" readonly="">
+</div>
+<div style="margin-top:5px;" id="msg1">ادخل النسبة المئوية والعدد الإجمالي لحساب النتيجة تلقائيا
+</div> 
+</div>
+  <div class="divPanelSidebar">
+<canvas id="canvas1" width="130" height="130">
+متصفحك لا يدعم</canvas>
+  </div>
+  <div class="cleared"></div>
+</div>
+</div>
+<style>
+.divPanel {
+    border-width: 1px;
+    border-style: solid;
+    border-color: green;
+    width: 550px;
+    padding: 5px;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+</style>
+<script>
+function drawPieSlice(ctx,centerX, centerY, radius, startAngle, endAngle, color){
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(centerX,centerY);
+    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+    ctx.closePath();
+    ctx.fill();
+}
+var Piechart = function(options){
+    this.options = options;
+    this.canvas = options.canvas;
+    this.ctx = this.canvas.getContext("2d");
+    this.colors = options.colors;
+    this.clear=function(){this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);}
+    this.grayCycle=function(){
+      this.clear();
+      drawPieSlice(
+        this.ctx,this.canvas.width/2,this.canvas.height/2,
+        Math.min(this.canvas.width/2,this.canvas.height/2),0,360,'#e0e0e0'
+      );
+      if (this.options.doughnutHoleSize){
+            drawPieSlice(
+                this.ctx,
+                this.canvas.width/2,
+                this.canvas.height/2,
+                this.options.doughnutHoleSize * Math.min(this.canvas.width/2,this.canvas.height/2),
+                0,
+                2 * Math.PI,
+                "#ffffff"
+            );
+      }
+    }
+    this.draw = function(){
+       this.clear();
+        var total_value = 0;
+        var color_index = 0;
+        for (var categ in this.options.data){
+            var val = this.options.data[categ];
+            total_value += parseFloat(val);
+        }
+        var start_angle = 0;
+        for (categ in this.options.data){
+            val = this.options.data[categ];
+            var slice_angle = 2 * Math.PI * val / total_value;
+ 
+            drawPieSlice(
+                this.ctx,
+                this.canvas.width/2,
+                this.canvas.height/2,
+                Math.min(this.canvas.width/2,this.canvas.height/2),
+                start_angle,
+                start_angle+slice_angle,
+                this.colors[color_index%this.colors.length]
+            );
+ 
+            start_angle += slice_angle;
+            color_index++;
+        }
+ 
+        //drawing a white circle over the chart
+        //to create the doughnut chart
+        if (this.options.doughnutHoleSize){
+            drawPieSlice(
+                this.ctx,
+                this.canvas.width/2,
+                this.canvas.height/2,
+                this.options.doughnutHoleSize * Math.min(this.canvas.width/2,this.canvas.height/2),
+                0,
+                2 * Math.PI,
+                "#ffffff"
+            );
+        }
+        //draw text
+        start_angle = 0;
+    this.ctx.fillStyle = "brown";
+    this.ctx.font = "15px Arial";
+    this.ctx.textAlign="center";
+    this.ctx.textBaseline="middle";  
+    this.ctx.fillText(options.total_number, this.canvas.width/2,this.canvas.height/2);
+    var idx=0;
+    console.log(this);
+for (categ in this.options.data){
+    val = this.options.data[categ];
+    slice_angle = 2 * Math.PI * val / total_value;
+    var pieRadius = Math.min(this.canvas.width/2,this.canvas.height/2);
+    var labelX = this.canvas.width/2 + (pieRadius / 2) * Math.cos(start_angle + slice_angle/2);
+    var labelY = this.canvas.height/2 + (pieRadius / 2) * Math.sin(start_angle + slice_angle/2);
+ 
+    if (this.options.doughnutHoleSize){
+        var offset = (pieRadius * this.options.doughnutHoleSize ) / 2;
+        labelX = this.canvas.width/2 + (offset + pieRadius / 2) * Math.cos(start_angle + slice_angle/2);
+        labelY = this.canvas.height/2 + (offset + pieRadius / 2) * Math.sin(start_angle + slice_angle/2);               
+    }
+ 
+    var labelText = Math.round(100 * val / total_value*10)/10;
+    if (idx==0){
+      this.ctx.fillStyle = "blue";
+      this.ctx.font = "13px Arial";
+    } else {
+      this.ctx.fillStyle = "black";
+      this.ctx.font = "13px Arial";
+    }
+    this.ctx.textAlign="center";
+    this.ctx.textBaseline="alphabetic";  
+    this.ctx.fillText(labelText+"%", labelX,labelY);
+    
+    this.ctx.textBaseline="top";  
+    this.ctx.fillText(this.options.data2[idx] , labelX,labelY);
+    start_angle += slice_angle;
+    idx++;
+}
+    }
+}
+
+var op1=document.getElementById("p1");
+var ot1=document.getElementById("t1");
+var or1=document.getElementById("r1");
+var omsg1=document.getElementById("msg1");
+var ocanvas1=document.getElementById("canvas1"); 
+function change1(){
+  if (op1.value!='' && ot1.value!='' && !isNaN(op1.value) && !isNaN(ot1.value)){
+  if (ot1.value.indexOf(".")!=-1){rd1=ot1.value.split(".")[1].length;} else {rd1=0;}
+  if (op1.value.indexOf(".")!=-1){rd2=op1.value.split(".")[1].length;} else {rd2=0;}
+    rd=2+rd1+rd2;
+    rdd=Math.pow(10,rd);
+    or1.value=Math.round(op1.value /100 * ot1.value*rdd )/rdd;
+    omsg1.innerHTML= op1.value+' &divide; 100 &times; '+ ot1.value+' = '+or1.value;
+    
+    var PTData = {"Percent": op1.value,"LeftPercent": (100-op1.value)};
+    var PTData2 =[or1.value,Math.round((ot1.value-parseFloat(or1.value))*rdd)/rdd ];
+    
+    var myDougnutChart = new Piechart({
+        canvas:ocanvas1,
+        data:PTData,
+        data2:PTData2,
+        colors:["#fde23e","#e0e0e0"],
+        doughnutHoleSize:0.4,
+        total_number: ot1.value
+    });
+    myDougnutChart.draw();
+
+  } else {
+    r1.value='';
+    ctx1 = ocanvas1.getContext("2d");
+    omsg1.innerHTML='ادخل النسبة المئوية والعدد الإجمالي لحساب النتيجة تلقائيا';
+    var myDougnutChart = new Piechart({canvas:ocanvas1,doughnutHoleSize:0.4});
+    myDougnutChart.grayCycle();
+  }
+
+}
+op1.addEventListener("change", change1);
+op1.addEventListener("keyup", change1);
+ot1.addEventListener("change", change1);
+ot1.addEventListener("keyup", change1);
+
+var myDougnutChart = new Piechart({canvas:ocanvas1,doughnutHoleSize:0.4});
+myDougnutChart.grayCycle();
+
+if (screen.width <= 500){Auto_AD();}
+</script>
+
+<p>
+<a href="https://mwsw3ti.blogspot.com" title="home">موقع موسوعتى</a>
+</p>
+</center>
