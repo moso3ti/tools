@@ -1,0 +1,742 @@
+<center>
+
+<script language="JavaScript">
+
+
+
+
+
+
+
+// general purpose function to see if an input value has been entered at all
+
+
+
+function isEmpty(inputStr) {
+
+
+
+        if (inputStr == "" || inputStr == null) {
+
+
+
+                return true
+
+
+
+        }
+
+
+
+        return false
+
+
+
+}
+
+
+
+
+
+
+
+// general purpose function to see if a suspected numeric input
+
+
+
+// is a positive integer
+
+
+
+function isNumber(inputStr) {
+
+
+
+        for (var i = 0; i < inputStr.length; i++) {
+
+
+
+                var oneChar = inputStr.charAt(i)
+
+
+
+                if (oneChar < "0" || oneChar > "9") {
+
+
+
+                        return false
+
+
+
+                }
+
+
+
+        }
+
+
+
+        return true
+
+
+
+}
+
+
+
+
+
+
+
+// function to determine if value is in acceptable range for this application
+
+
+
+function inRangeDay(inputStr) {
+
+
+
+        num = parseInt(inputStr)
+
+
+
+        if (num < 1 || num > 31) {
+
+
+
+                return false
+
+
+
+        }
+
+
+
+        return true
+
+
+
+}
+
+
+
+
+
+
+
+// function to determine if value is in acceptable range for this application
+
+
+
+function inRangeYear(inputStr) {
+
+
+
+        num = parseInt(inputStr)
+
+
+
+        if (num < 1900 || num > 3000) {
+
+
+
+                return false
+
+
+
+        }
+
+
+
+        return true
+
+
+
+}
+
+
+
+
+
+
+
+// Master value validator routine for day
+
+
+
+function isValidDay(inputStr) {
+
+
+
+        if (isEmpty(inputStr)) {
+
+
+
+                alert("من فضلك ادخلي اليوم في حقل اليوم قبل ان تضغطي على الزر أحسب")
+
+
+
+                return false
+
+
+
+        } else {
+
+
+
+                if (!isNumber(inputStr)) {
+
+
+
+                        alert("من فضلك تأكدي من ان اليوم ادخل في صيغة رقمية")
+
+
+
+                        return false
+
+
+
+                } else {
+
+
+
+                        if (!inRangeDay(inputStr)) {
+
+
+
+                                alert("من فضلك ادخلي يوم صحيح")
+
+
+
+                                return false
+
+
+
+                        }
+
+
+
+                }
+
+
+
+        }
+
+
+
+        return true
+
+
+
+}
+
+
+
+
+
+
+
+// Master value validator routine for year
+
+
+
+function isValidYear(inputStr) {
+
+
+
+        if (isEmpty(inputStr)) {
+
+
+
+                alert("من فضلك ادخلي السنة في حقل السنة قبل ان تضغطي على الزر أحسب")
+
+
+
+                return false
+
+
+
+        } else {
+
+
+
+                if (!isNumber(inputStr)) {
+
+
+
+                        alert("من فضلك تأكدي من أن السنة ادخلت في صيغة رقمية")
+
+
+
+                        return false
+
+
+
+                } else {
+
+
+
+                        if (!inRangeYear(inputStr)) {
+
+
+
+                                alert("من فضلك ادخلي سنة صحيحة")
+
+
+
+                                return false
+
+
+
+                        }
+
+
+
+                }
+
+
+
+        }
+
+
+
+        return true
+
+
+
+}
+
+
+
+
+
+
+
+function makeArray(n) {
+
+
+
+        this.length = n
+
+
+
+        for (var i=1; i <= n; i++)
+
+
+
+                this[i] = null
+
+
+
+                return this
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+var maxday = new makeArray(12)
+
+
+
+maxday[1] = 31
+
+
+
+maxday[2] = 28
+
+
+
+maxday[3] = 31
+
+
+
+maxday[4] = 30
+
+
+
+maxday[5] = 31
+
+
+
+maxday[6] = 30
+
+
+
+maxday[7] = 31
+
+
+
+maxday[8] = 31
+
+
+
+maxday[9] = 30
+
+
+
+maxday[10] = 31
+
+
+
+maxday[11] = 30
+
+
+
+maxday[12] = 31
+
+
+
+
+
+
+
+var monthname = new makeArray(12)
+
+
+
+monthname[1] = "يناير"
+
+
+
+monthname[2] = "فبراير"
+
+
+
+monthname[3] = "مارس"
+
+
+
+monthname[4] = "ابريل"
+
+
+
+monthname[5] = "مايو"
+
+
+
+monthname[6] = "يونيو"
+
+
+
+monthname[7] = "يوليو"
+
+
+
+monthname[8] = "أغسطس"
+
+
+
+monthname[9] = "سبتمبر"
+
+
+
+monthname[10] = "أكتوبر"
+
+
+
+monthname[11] = "نوفمبر"
+
+
+
+monthname[12] = "ديسمبر"
+
+
+
+
+
+
+
+var adddays = new makeArray(7)
+
+
+
+adddays[1] = 14
+
+
+
+adddays[2] = 35
+
+
+
+adddays[3] = 70
+
+
+
+adddays[4] = 84
+
+
+
+adddays[5] = 161
+
+
+
+adddays[6] = 189
+
+
+
+adddays[7] = 280
+
+
+
+
+
+
+
+// Calculate the date string
+
+
+
+function calcNewDate(month,day,year,adddays) {
+
+        newday = eval(day) + adddays
+
+        newmonth = month + 1
+
+        newyear = eval(year)
+ 
+         var max
+
+        for (var i = 0; i < 12; i++) {
+
+          if (newmonth == 2 && (newyear % 4) == 0) {
+	          max = 29
+
+          } else
+
+            max = maxday[newmonth]
+
+
+
+          if (newday > max) {
+
+
+
+            newday = newday - max
+
+           newmonth = newmonth + 1
+
+            if (newmonth > 12) {
+
+              newyear = newyear + 1
+
+              newmonth = 1
+
+            }
+
+          }
+
+         else
+
+            break
+
+        }
+
+        var datestring = " " + newday + " " + monthname[newmonth] + " " + newyear
+
+        return datestring
+
+}
+
+
+
+
+// Get the date entered and calculate the rest of the dates
+
+function calc(form) {
+
+        day = form.day.value
+
+        year = form.year.value
+
+        monthnum = form.month.selectedIndex
+   	
+   	 if (isValidDay(day)) {
+
+          if (isValidYear(year)){
+
+            form.conception.value = calcNewDate(monthnum,day,year,adddays[1])
+
+            form.beginrisk.value = calcNewDate(monthnum,day,year,adddays[2])
+
+            form.endrisk.value = calcNewDate(monthnum,day,year,adddays[3])
+ 
+            form.beginorgan.value = calcNewDate(monthnum,day,year,adddays[2])
+ 
+            form.endorgan.value = calcNewDate(monthnum,day,year,adddays[3])
+
+            form.endfirst.value = calcNewDate(monthnum,day,year,adddays[4])
+
+            form.preemies.value = calcNewDate(monthnum,day,year,adddays[5])
+
+            form.endsecond.value = calcNewDate(monthnum,day,year,adddays[6])
+
+            form.duedate.value = calcNewDate(monthnum,day,year,adddays[7])
+          }
+        } 
+}
+
+</script>
+<script language="JavaScript">
+
+<!--
+
+var winopts =
+
+"toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=1,resizable=0,width=630,height=450"
+
+
+
+function product(filename){
+
+  winname = "temp"
+
+  smallwindow = window.open(filename,winname,winopts)
+
+  if (navigator.appVersion.indexOf("(X11") != -1 ||
+
+    navigator.appVersion.indexOf("(Mac") != -1)
+
+       smallwindow = window.open(filename,winname,winopts)
+
+}
+
+// -->
+
+</script>
+
+
+<div dir="rtl">
+
+<table border="0" width="100%">
+  <tr>
+    <td>حساب موعد الولادة وبعض الفترات المهمة من مراحل الحمل
+<br /><br />
+    أول يوم في آخر دورة شهرية
+
+
+    <form name="dates">
+
+      <table border="0" cellpadding="5" cellspacing="0" width="100%">
+        <tr>
+          <td align="right">الشهر: </td>
+          <td><select name="month" size="1">
+            <option value="يناير">يناير</option>
+            <option value="فبراير">فبراير</option>
+            <option value="مارس">مارس</option>
+            <option value="ابريل">ابريل</option>
+            <option value="مايو">مايو</option>
+            <option value="يونيو">يونيو</option>
+            <option value="يوليو">يوليو</option>
+            <option value="أغسطس">أغسطس</option>
+            <option value="سبتمبر">سبتمبر</option>
+            <option value="أكتوبر">أكتوبر</option>
+            <option value="نوفمبر">نوفمبر</option>
+            <option value="ديسمبر">ديسمبر</option>
+          </select></td> 
+		  <td align="right">اليوم: </td>
+          <td><select name="day" size="1">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+			<option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+			<option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+          </select></td>
+		  <tr/><tr>
+          <td>السنة: </td>
+          <td><select name="year" size="1">
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+          </select></td>
+        </tr>
+      </table>
+
+	<input align="center" type="button" value="احسب" onclick="calc(this.form)">
+
+      <hr noshade width="90%" />
+      <table border="0" cellpadding="2" cellspacing="0" width="100%">
+        <tr>
+          <td valign="middle" width="355">هذا  هو التاريخ التقريبي الذي تم الحمل فيه:</td>
+          <td valign="middle"><input type="text" size="18" name="conception" /></td>
+        </tr>
+        <tr>
+          <td valign="top">الفترة التي ترتفع فيها خطورة الاجهاض :</td>
+          <td valign="top">
+          	<input type="text" size="18" name="beginrisk">
+          	<input type="text" size="18" name="endrisk">
+         </td>
+        </tr>
+        <tr>
+          <td>بدء تخلق أعضاء الجنين بإذن الله</td>
+          <td><input type="text" size="18" name="beginorgan"></td>
+        </tr>
+        <tr>
+          <td>اكتمال تخلق الاعضاء الرئيسية للجنين</td>
+          <td><input type="text" size="18" name="endorgan"></td>
+        </tr>
+        <tr>
+          <td>انتهاء الثلث الاول (12 اسبوع) - انخفاض خطورة الاجهاض</td>
+          <td><input type="text" size="18" name="endfirst"></td>
+        </tr>
+        <tr>
+          <td>أعضاء الجنين الهامة التي يحتاجها لبقاءه حياً تكتمل عند هذا التاريخ</td>
+          <td><input type="text" size="18" name="preemies"></td>
+        </tr>
+        <tr>
+
+          <td>نهاية الثلث الثاني (27 اسبوع)</td>
+          <td><input type="text" size="18" name="endsecond"></td>
+        </tr>
+        <tr>
+          <td>اليوم المتوقع للولادة بإذن الله</td>
+          <td><input type="text" size="18" name="duedate"></td>
+        </tr>
+      </table>
+    </form>
+    </td>
+  </tr>
+</table>
+
+
+</div>
+
+
+<p>
+<a href="https://mwsw3ti.blogspot.com/" target="_blank" title="home">موقع موسوعتى</a></div>
+</p>
+</center>
