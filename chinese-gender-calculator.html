@@ -1,0 +1,95 @@
+
+ 		<script type='text/javascript' src="//www.easycalculation.com/jquery.js"> </script>
+		<script language=javascript src="//www.easycalculation.com/numeric.js"></script>
+		<script language=javascript src="//www.easycalculation.com/common.js"></script>
+		<script>
+    function calculate() {
+        var mhname = easyCommonInputCalculation('m','','عمر الأم');
+        var chname = $('#chname').val();
+        if(mhname < 18) {
+            alert('يجب أن يكون عمر الأم أكبر من أو يساوي 18 عامًا');
+        }
+        else if(mhname > 45) {
+            alert('يجب أن يكون عمر الأم أقل من أو يساوي 45 عامًا');
+        }
+        else {
+            $('.result').show();
+            var values = Array();
+            values[0] = Array(0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+            values[1] = Array(1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0);
+            values[2] = Array(0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1);
+            values[3] = Array(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            values[4] = Array(0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0);
+            values[5] = Array(1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0);
+            values[6] = Array(1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1);
+            values[7] = Array(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1);
+            values[8] = Array(1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0);
+            values[9] = Array(0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1);
+            values[10] = Array(1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0);
+            values[11] = Array(0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0);
+            values[12] = Array(1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1);
+            values[13] = Array(1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0);
+            values[14] = Array(1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1);
+            values[15] = Array(0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0);
+            values[16] = Array(1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0);
+            values[17] = Array(1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1);
+            values[18] = Array(1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0);
+            values[19] = Array(0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1);
+            values[20] = Array(1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0);
+            values[21] = Array(0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1);
+            values[22] = Array(1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1);
+            values[23] = Array(0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0);
+            values[24] = Array(1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1);
+            values[25] = Array(0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1);
+            values[26] = Array(1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1);
+            values[27] = Array(0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0);
+            
+            var resul = 'ألف مبروك ! ان المولد سيكون :  ';
+            var mage = mhname-18;
+            var valus = values[mage][chname];
+            if(valus == 0) {
+                resul += '<b>بنت</b>!';
+            }
+            else {
+                resul += '<b>ولد</b>!';
+            }
+            $('#resu').html('<p>'+resul+'</p>');
+        }
+    }
+    
+    function clearAll() {
+        $('.result').hide();
+    }
+    
+    $(document).ready(function() {
+        clearAll();
+    });
+</script><link href="//www.easycalculation.com/css/style.css" rel="stylesheet" type="text/css">
+			<div class="ec_calculator_gen clearfix" style="position:relative; margin:0px !important;">
+			    <form name=first><div id="dispCalcConts">
+				<h2 style="text-align:left">الجدول الصيني لتوقع جنس المولود</h2><div class='group clearfix'>
+    <label>عمر الأم</label>
+    <input type='text' class='easypositive-integer' maxlength='2' id='mhname'>
+</div>
+<div class='group clearfix'>
+    <label>شهر الحمل </label>
+    <select id='chname' onchange='calculate()'> <option value='0'>يناير</option> <option value='1'>فبراير</option> <option value='2'>مارس</option> <option value='3'>أبريل</option> <option value='4'>مايو</option> <option value='5'>يونيو</option> <option value='6'>يوليو</option> <option value='7'>أغسطس</option> <option value='8'>سبتمبر</option> <option value='9'>أكتوبر</option> <option value='10'>نوفمبر</option> <option value='11'>ديسمبر</option> </select>
+</div>
+
+<input type='button' value='احسب' onclick='calculate()'> <input type='reset' value='إعادة' onclick='clearAll()'>
+
+<div class='result group clearfix'>
+    <div id='resu' class='stand' style='width:98%;text-align:center'></div>
+</div></div> </form><script type="text/javascript">onkeyupValidationClass();</script>			
+			</div>			    <script type="text/javascript">
+				function alert(val)
+				{
+				    $("#dynErrDisp").show();
+				    $("#dynErrDisp").html(val);
+				}
+			    </script>
+                
+                
+                <center> 
+  <a href="https://mwsw3ti.blogspot.com/" target="_blank" title="home">موقع موسوعتى</a>
+</center>
